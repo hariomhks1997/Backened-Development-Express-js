@@ -11,15 +11,23 @@ const server=http.createServer((req,res)=>{
    const url=req.url;
    const method=req.method;
    if (url === '/') {
-      res.write('<html>');
-      res.write('<head><title>Enter Message</title><head>');
-      res.write('<body><form action="/message" method="POST"><input type="text" name="message"><button type="submit">Send</button></form></body>');
-      res.write('</html>');
-      return res.end();
+      fs.readFile('message.txt',{encoding:"utf-8"},(err,data)=>{
+         if(err){
+            console.log(err)
+         }
+         res.write('<html>');
+         res.write('<head><title>Enter Message</title><head>');
+        res.write(`<body>${data}</body>`);
+         res.write(`<body><form action="/message" method="POST"><input type="text" name="message"><button type="submit">Send</button></form></body>`);
+         res.write('</html>');
+         return res.end();
+      })
+      
     }
-    if (url==='/message'&& method==="POST") {
+   else  if (url==='/message'&& method==="POST") {
       const body = [];
     req.on('data', (chunk) => {
+      
       console.log(chunk);
       body.push(chunk);
     });
@@ -35,6 +43,9 @@ const server=http.createServer((req,res)=>{
      });
    
   }
+  else{
+
+  
 //console.log(res.url,req.method,req.headers);
   // console.log(req);
    //process.exit();
@@ -44,6 +55,7 @@ const server=http.createServer((req,res)=>{
    res.write("<body><h1>Hello From My Node.js</h1></body>")
    res.write('</html>');
    res.end();
-   
+  }
 });
+
 server.listen(3000);
