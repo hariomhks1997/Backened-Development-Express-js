@@ -19,20 +19,19 @@ const server=http.createServer((req,res)=>{
     }
     if (url==='/message'&& method==="POST") {
       const body = [];
-      req.on('data', (chunk) => {
-         console.log(chunk);
-         body.push(chunk);
-       });
-       req.on('end', () => {
-         const parsedBody = Buffer.concat(body).toString();
-         console.log(parsedBody)
-         
-       });
-       fs.writeFileSync('message.txt',"DUMMY");
-      res.statusCode =302;
-      res.setHeader('Location', '/');
-      return res.end();
-    }
+    req.on('data', (chunk) => {
+      console.log(chunk);
+      body.push(chunk);
+    });
+    req.on('end', () => {
+      const parsedBody = Buffer.concat(body).toString();
+      const message = parsedBody.split('=')[1];
+      fs.writeFileSync('message.txt', message);
+    });
+    res.statusCode = 302;
+    res.setHeader('Location', '/');
+    return res.end();
+  }
 //console.log(res.url,req.method,req.headers);
   // console.log(req);
    //process.exit();
