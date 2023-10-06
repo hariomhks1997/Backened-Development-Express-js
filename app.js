@@ -16,7 +16,7 @@ const server=http.createServer((req,res)=>{
       return res.end();
     }
 //console.log(res.url,req.method,req.headers);
-   //console.log(req);
+   console.log(req);
    //process.exit();
    res.setHeader('Content-Type',"text/html")
    res.write('<html>');
