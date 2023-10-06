@@ -1,4 +1,5 @@
 const http=require("http");
+const fs=require('fs')
 // function rqListener(req,res){
 
 // }
@@ -8,6 +9,7 @@ const http=require("http");
 // });
 const server=http.createServer((req,res)=>{
    const url=req.url;
+   const method=req.method;
    if (url === '/') {
       res.write('<html>');
       res.write('<head><title>Enter Message</title><head>');
@@ -15,8 +17,14 @@ const server=http.createServer((req,res)=>{
       res.write('</html>');
       return res.end();
     }
+    if (url==='/message'&& method==="POST") {
+      fs.writeFileSync('message.txt', 'DUMMY');
+      res.statusCode =302;
+      res.setHeader('Location', '/');
+      return res.end();
+    }
 //console.log(res.url,req.method,req.headers);
-   console.log(req);
+  // console.log(req);
    //process.exit();
    res.setHeader('Content-Type',"text/html")
    res.write('<html>');
