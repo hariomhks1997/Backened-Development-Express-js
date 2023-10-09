@@ -1,37 +1,30 @@
-const products = [];
-const rootDir = require('../util/path');
-const path = require('path');
-const fs=require("fs")
+const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {
-  
-  res.sendFile(path.join(rootDir, 'views', 'add-product.html'));
-}
+  res.render('add-product', {
+    pageTitle: 'Add Product',
+    path: '/admin/add-product',
+    formsCSS: true,
+    productCSS: true,
+    activeAddProduct: true
+  });
+};
+
 exports.postAddProduct = (req, res, next) => {
- //console.log(req.body);
- 
-  fs.writeFileSync("username.txt",`${req.body.title}:${req.body.title}`,{flag:'a'},(err)=>
-  err?console.log(err):res.redirect('/'))
+  const product = new Product(req.body.title);
+  product.save();
   res.redirect('/');
-}
+};
 
 exports.getProducts = (req, res, next) => {
-  fs.readFile('username.txt',{encoding:"utf-8"},(err,data)=>{
-    if(err){
-       console.log(err)
-       data="no chat exists"
-    }
-   console.log(data)
-}); 
-  res.sendFile(path.join(rootDir, 'views', 'shop.html'));
-}
-exports.getcontactus=(req, res, next) => {
-  res.sendFile(path.join(rootDir, 'views', 'contactus.html'));
-}
-exports.postcontactus=(req, res, next) => {
-  console.log(req.body);
-  res.redirect('/sucess');
-}
-exports.getsucess=(req, res, next) => {
-  res.sendFile(path.join(rootDir, 'views', 'sucess.html'));
-}
+  Product.fetchAll(products => {
+    res.render('shop', {
+      prods: products,
+      pageTitle: 'Shop',
+      path: '/',
+      hasProducts: products.length > 0,
+      activeShop: true,
+      productCSS: true
+    });
+  });
+};
