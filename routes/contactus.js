@@ -6,4 +6,4 @@ router.get('/contactus',controllersRoute.getcontactus );
 
 router.post('/sucess',controllersRoute.postcontactus );
   
-  module.exports = router;
+module.exports = router;

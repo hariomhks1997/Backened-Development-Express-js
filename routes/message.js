@@ -6,20 +6,20 @@ const router=express.Router()
 
 
 router.get('/message', (req, res, next) => {
-    fs.readFile('username.txt',{encoding:"utf-8"},(err,data)=>{
-        if(err){
-           console.log(err)
-           data="no chat exists"
-        }
-        res.send(`${data}<form action="/" onsubmit="document.getElementById('username').value=localStorage.getItem('username')" method="POST">
+  fs.readFile('username.txt',{encoding:"utf-8"},(err,data)=>{
+    if(err){
+       console.log(err)
+       data="no chat exists"
+    }
+    res.send(`${data}<form action="/" onsubmit="document.getElementById('username').value=localStorage.getItem('username')" method="POST">
 
-	<input id="message" name="message" type="text" placeholder="message">
-    <input type="hidden" name="username" id="username" ></input>
+<input id="message" name="message" type="text" placeholder="message">
+<input type="hidden" name="username" id="username" ></input>
 
-	<button type="submit">Send</button>
+<button type="submit">Send</button>
 
 </form>`)
-  }); 
+}); 
      })
      
    
